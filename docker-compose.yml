@@ -1,9 +1,11 @@
 services:
+
   apprendre-poesie:
-    build:
-      context: .
-      dockerfile: Dockerfile # Utiliser Dockerfile pour le local
+    image: caddy:latest
     ports:
-      - "8080:80" # Pour tester localement sur le port 8080
+      - '${PORT}:80'
     restart: always
+    volumes:
+      - './Caddyfile:/etc/Caddyfile'
+      - './src:/srv'
 
