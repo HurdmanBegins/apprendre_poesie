@@ -1,0 +1,9 @@
+services:
+  apprendre-poesie:
+    build:
+      context: .
+      dockerfile: Dockerfile # Utiliser Dockerfile pour le local
+    ports:
+      - "8080:80" # Pour tester localement sur le port 8080
+    restart: always
+
