@@ -2,6 +2,7 @@ let currentStep = 0; // Étape actuelle (commence à 0)
 let selectedWords = 1; // Nombre de mots cachés initialement choisi par l'utilisateur
 let timerInterval = null; // Référence au chronomètre
 let timeRemaining = 0; // Temps restant en secondes
+let timerDuration = 10;
 
 // Gestion des options de quantité de mots
 const palettes = document.querySelectorAll('.palette');
@@ -20,7 +21,7 @@ palettes.forEach((palette) => {
 document.getElementById('start-button').addEventListener('click', () => {
   const poetryInput = document.getElementById('poetry-input').value.trim();
   const enableTimer = document.getElementById('enable-timer').checked;
-  const timerDuration = parseInt(document.getElementById('timer-duration').value, 10) || 5;
+  timerDuration = parseInt(document.getElementById('timer-duration').value, 10) || 5;
 
   if (poetryInput) {
     // Masquer les options et le bouton "Démarrer"
@@ -201,6 +202,7 @@ function checkCompletion() {
     setTimeout(() => {
       if (confirm('Étape suivante prête ! Voulez-vous continuer ?')) {
         currentStep++; // Avancer dans les étapes
+        timeRemaining = timerDuration * 60; // Convertir en secondes
         initPoetryGame(originalPoetryText, selectedWords + currentStep); // Recharger la grille avec plus de mots cachés
       }
     }, 500);
