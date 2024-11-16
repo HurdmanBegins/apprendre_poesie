@@ -1,20 +1,77 @@
-// 
+let currentStep = 0; // Étape actuelle (commence à 0)
+let selectedWords = 1; // Nombre de mots cachés initialement choisi par l'utilisateur
+let timerInterval = null; // Référence au chronomètre
+let timeRemaining = 0; // Temps restant en secondes
 
-let currentStep = 1; // Étape actuelle (1 mot manquant au départ)
+// Gestion des options de quantité de mots
+const palettes = document.querySelectorAll('.palette');
+palettes.forEach((palette) => {
+  palette.addEventListener('click', () => {
+    // Mettre à jour le nombre de mots sélectionnés
+    selectedWords = parseInt(palette.dataset.words);
 
+    // Mettre à jour la classe active pour indiquer la sélection
+    palettes.forEach((btn) => btn.classList.remove('active'));
+    palette.classList.add('active');
+  });
+});
+
+// Gestion des options de chronomètre
 document.getElementById('start-button').addEventListener('click', () => {
   const poetryInput = document.getElementById('poetry-input').value.trim();
+  const enableTimer = document.getElementById('enable-timer').checked;
+  const timerDuration = parseInt(document.getElementById('timer-duration').value, 10) || 5;
+
   if (poetryInput) {
-    // Masquer la zone de texte et le bouton
+    // Masquer les options et le bouton "Démarrer"
+    document.getElementById('options-container').style.display = 'none';
+    document.getElementById('timer-options').style.display = 'none';
     document.getElementById('poetry-input').style.display = 'none';
     document.getElementById('start-button').style.display = 'none';
 
-    initPoetryGame(poetryInput, currentStep);
+    // Démarrer le jeu avec le choix initial de l'utilisateur
+    initPoetryGame(poetryInput, selectedWords + currentStep);
+
+    // Gérer le chronomètre
+    if (enableTimer) {
+      timeRemaining = timerDuration * 60; // Convertir en secondes
+      document.getElementById('timer-display').style.display = 'block'; // Afficher le chronomètre
+      updateTimerDisplay(); // Mettre à jour l'affichage initial
+      startTimer(); // Démarrer le chronomètre
+    }
   } else {
     alert('Veuillez coller une poésie avant de démarrer.');
   }
 });
 
+// Mettre à jour l'affichage du chronomètre
+function updateTimerDisplay() {
+  const minutes = Math.floor(timeRemaining / 60);
+  const seconds = timeRemaining % 60;
+  const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  document.getElementById('timer-display').textContent = formattedTime;
+}
+
+// Démarrer le chronomètre
+function startTimer() {
+  timerInterval = setInterval(() => {
+    if (timeRemaining > 0) {
+      timeRemaining--;
+      updateTimerDisplay();
+    } else {
+      clearInterval(timerInterval);
+      endGame(); // Arrêter le jeu lorsque le temps est écoulé
+    }
+  }, 1000);
+}
+
+// Arrêter le jeu en cas de fin du temps
+function endGame() {
+  alert('Le temps est écoulé ! Fin du jeu.');
+  // Vous pouvez ajouter ici une logique supplémentaire, comme réinitialiser l'état ou afficher un récapitulatif
+}
+
+// Initialisation du jeu
 function initPoetryGame(text, missingWordCount) {
   const lines = text.split('\n');
   const poetryContainer = document.getElementById('poetry');
@@ -66,7 +123,7 @@ function initPoetryGame(text, missingWordCount) {
   });
 }
 
-// Fonction pour découper les mots tout en conservant les caractères spéciaux et espaces
+// Fonctions utilitaires
 function tokenizeWithSpecialCharacters(line) {
   const tokens = []; // Contiendra les mots, ponctuation et espaces
   const regex = /([\wÀ-ÿ'-]+|[^\w\s])/g; // Capture mots et ponctuation
@@ -91,7 +148,6 @@ function tokenizeWithSpecialCharacters(line) {
   return { tokens, wordsOnly };
 }
 
-// Fonction pour mélanger un tableau
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -141,11 +197,11 @@ function checkCompletion() {
   const holes = document.querySelectorAll('.hole');
   const allGreen = Array.from(holes).every(hole => hole.textContent !== '[____]');
   if (allGreen) {
-    // Afficher un message pour l'étape suivante
+    // Étape suivante après validation
     setTimeout(() => {
       if (confirm('Étape suivante prête ! Voulez-vous continuer ?')) {
-        currentStep++; // Augmenter le nombre de mots à cacher
-        initPoetryGame(originalPoetryText, currentStep); // Recharger la grille
+        currentStep++; // Avancer dans les étapes
+        initPoetryGame(originalPoetryText, selectedWords + currentStep); // Recharger la grille avec plus de mots cachés
       }
     }, 500);
   }

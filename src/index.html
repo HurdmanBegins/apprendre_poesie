@@ -10,7 +10,32 @@
   <div id="app">
     <h1>Apprendre une poésie</h1>
     <textarea id="poetry-input" placeholder="Collez votre poésie ici..."></textarea>
+    <div id="options-container">
+      <h3>Nombre de mots cachés par ligne :</h3>
+      <div id="palettes">
+        <button class="palette active" data-words="1">1 mot</button>
+        <button class="palette" data-words="2">2 mots</button>
+        <button class="palette" data-words="3">3 mots</button>
+      </div>
+    </div>
+    
+    <div id="timer-options">
+      <label>
+        <input type="checkbox" id="enable-timer" />
+        Activer le chronomètre
+      </label>
+      <label>
+        Temps (en minutes) :
+        <input type="number" id="timer-duration" min="1" value="5" />
+      </label>
+    </div>
+    
+    <!-- Chronomètre -->
+    <div id="timer-display" style="display: none;">05:00</div>
+  </br>
     <button id="start-button">Démarrer</button>
+
+
 
     <!-- Conteneur principal pour les deux colonnes -->
     <div id="poetry-container">

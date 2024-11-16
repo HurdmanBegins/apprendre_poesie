@@ -129,3 +129,41 @@ h1 {
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+#options-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#palettes {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.palette {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.palette:hover {
+  background-color: #45a049;
+}
+
+.palette.active {
+  background-color: #2196F3; /* Bleu pour montrer la sélection */
+  color: white;
+}
+
+#timer-display {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #FF5733; /* Couleur rouge pour le décompte */
+}
