@@ -7,5 +7,5 @@ services:
     restart: always
     volumes:
       - './Caddyfile:/etc/Caddyfile'
-      - './src:/srv'
+      - './src/:/usr/share/caddy/'
 
