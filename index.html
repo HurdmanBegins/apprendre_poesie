@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apprendre une poésie</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <h1>Apprendre une poésie</h1>
+    <textarea id="poetry-input" placeholder="Collez votre poésie ici..."></textarea>
+    <button id="start-button">Démarrer</button>
+
+    <!-- Conteneur principal pour les deux colonnes -->
+    <div id="poetry-container">
+      <!-- Colonne gauche : Mots manquants -->
+      <div id="word-pool-container">
+        <h2>Mots manquants</h2>
+        <div id="word-pool"></div>
+      </div>
+      <!-- Colonne droite : Texte à trous -->
+      <div id="poetry">
+        <h2>Texte à trous</h2>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
