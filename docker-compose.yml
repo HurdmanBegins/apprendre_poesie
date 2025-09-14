@@ -2,8 +2,6 @@ services:
 
   apprendre-poesie:
     image: caddy:latest
-    ports:
-      - '80:80'
     restart: always
     volumes:
       - './Caddyfile:/etc/Caddyfile'
